@@ -1,9 +1,9 @@
-import { connect } from 'bun'
+
 import type { SocketResponse } from './parsers.ts'
 
 export async function socket(string: string, parser: SocketResponse) {
   const getting = new Promise((resolve, reject) => {
-    const connected = connect({
+    const connected = Bun.connect({
       unix: '/var/run/docker.sock',
       socket: {
         error(_, error) {
@@ -13,13 +13,13 @@ export async function socket(string: string, parser: SocketResponse) {
           reject(error)
         },
         async data(_, _data) {
-          const appendOrResolve = async (buffer: Buffer) => {
+          const processData = async (buffer: Buffer) => {
             parser.parse(buffer)
 
             if (parser.isComplete)
               resolve(parser.getResponse())
           }
-          await appendOrResolve(_data)
+          await processData(_data)
         },
         end(_) {
           reject(new Error('socket closed'))

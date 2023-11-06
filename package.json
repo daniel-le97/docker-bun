@@ -1,12 +1,29 @@
 {
   "name": "docker-bun",
   "type": "module",
-  "module": "index.ts",
+  "version": "0.2.0",
+  "author": "Robert Soriano <sorianorobertc@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/daniel-le97/docker-bun#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daniel-le97/docker-bun.git"
+  },
+  "bugs": "https://github.com/daniel-le97/docker-bun/issues",
+  "keywords": [
+    "bun",
+    "docker"
+  ],
+  "module": "src/index.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "dev": "bun index.ts",
+    "dev": "bun src/index.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "generate": "openapi --input ./src/open-api.yaml --output ./src/schema"
+    "generate": "openapi --input ./src/open-api.yaml --output ./src/schema",
+    "prepublishOnly": "bun build.ts"
   },
   "peerDependencies": {
     "typescript": "^5.2.2"
@@ -14,6 +31,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "^1.1.0",
     "bnx": "^0.3.1",
+    "bun-plugin-dts": "^0.2.1",
     "bun-types": "^1.0.9",
     "consola": "^3.2.3",
     "eslint": "^8.53.0",
