@@ -1,6 +1,3 @@
-import Docker from "./dist/index";
-
-
+import { Docker } from 'docker-bun'
 
 const docker = new Docker()
-console.log(docker.container.containerList());

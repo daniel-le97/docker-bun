@@ -1,8 +1,8 @@
 {
   "name": "docker-bun",
   "type": "module",
-  "version": "0.2.0",
-  "author": "Robert Soriano <sorianorobertc@gmail.com>",
+  "version": "0.3.0",
+  "author": "Daniel Le <daniel97.le@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/daniel-le97/docker-bun#readme",
   "repository": {
@@ -15,6 +15,7 @@
     "docker"
   ],
   "module": "src/index.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
