@@ -8,8 +8,9 @@ import type { ApiResult } from './ApiResult';
 import { CancelablePromise } from './CancelablePromise';
 import type { OnCancel } from './CancelablePromise';
 import type { OpenAPIConfig } from './OpenAPI';
-import { socket } from '../../socket.ts'
+import { socket, socketsService } from '../../socket.ts'
 import { SocketRequest, SocketResponse } from '../../parsers.ts'
+import { rejects } from 'assert';
 
 export const isDefined = <T>(value: T | null | undefined): value is Exclude<T, null | undefined> => {
     return value !== undefined && value !== null;
@@ -220,10 +221,15 @@ export const sendRequest = async (
     // console.log('happening');
     
 
-    const newUrl = new SocketRequest(url, request).toString();
-    // console.log(url);
+    const newUrl = new SocketRequest(url, request)
+    await socketsService.connect()
     
-    return await socket(newUrl, new SocketResponse())
+    return new Promise<Response>((resolve, reject) => {
+        socketsService.send(newUrl, async(res) => {
+        if (!res.ok) return reject(Error(await res.text()));
+        resolve(res)
+    })
+    })
 };
 
 export const getResponseHeader = (response: Response, responseHeader?: string): string | undefined => {

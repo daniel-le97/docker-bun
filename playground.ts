@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import Docker from "docker-bun";
+import Docker from "./src/index.ts";
 
 const docker = new Docker()
 

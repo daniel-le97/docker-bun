@@ -1,8 +1,12 @@
 import type { OpenAPIConfig } from './schema/index.ts'
 import { ConfigService, ContainerService, DistributionService, ExecService, ImageService, NetworkService, NodeService, OpenAPI, PluginService, SecretService, ServiceService, SessionService, SwarmService, SystemService, TaskService, VolumeService } from './schema/index.ts'
+import { socketsService } from './socket.ts';
+
 
 export class Docker {
+
   constructor(opts?: OpenAPIConfig) {
+    // socketsService.connect()
     OpenAPI.BASE = opts?.BASE ?? OpenAPI.BASE
     OpenAPI.VERSION = opts?.VERSION ?? OpenAPI.VERSION
     OpenAPI.WITH_CREDENTIALS = opts?.WITH_CREDENTIALS ?? OpenAPI.WITH_CREDENTIALS
@@ -13,7 +17,6 @@ export class Docker {
     OpenAPI.HEADERS = opts?.HEADERS ?? OpenAPI.HEADERS
     OpenAPI.ENCODE_PATH = opts?.ENCODE_PATH ?? OpenAPI.ENCODE_PATH
   }
-
   containers = ContainerService
   images = ImageService
   distibution = DistributionService
