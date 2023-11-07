@@ -20,5 +20,5 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
-  "include": ["./src", "playground.ts", "src/classes"]
+  "include": ["./src", "playground.ts", "build.ts"]
 }
