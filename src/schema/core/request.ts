@@ -217,11 +217,11 @@ export const sendRequest = async (
 
     onCancel(() => controller.abort());
 
-    console.log('happening');
+    // console.log('happening');
     
 
     const newUrl = new SocketRequest(url, request).toString();
-    console.log(url);
+    // console.log(url);
     
     return await socket(newUrl, new SocketResponse())
 };
