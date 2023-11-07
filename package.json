@@ -14,7 +14,7 @@
     "bun",
     "docker"
   ],
-  "module": "src/index.ts",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
@@ -34,6 +34,7 @@
     "bnx": "^0.3.1",
     "bun-plugin-dts": "^0.2.1",
     "bun-types": "^1.0.9",
+    "docker-bun": "^0.3.8",
     "eslint": "^8.53.0",
     "http-parser-js": "^0.5.8",
     "openapi-typescript-codegen": "^0.25.0"
