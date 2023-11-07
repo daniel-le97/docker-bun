@@ -6,7 +6,6 @@ import { socketsService } from './socket.ts';
 export class Docker {
 
   constructor(opts?: OpenAPIConfig) {
-    // socketsService.connect()
     OpenAPI.BASE = opts?.BASE ?? OpenAPI.BASE
     OpenAPI.VERSION = opts?.VERSION ?? OpenAPI.VERSION
     OpenAPI.WITH_CREDENTIALS = opts?.WITH_CREDENTIALS ?? OpenAPI.WITH_CREDENTIALS
