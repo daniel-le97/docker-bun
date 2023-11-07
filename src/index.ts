@@ -4,6 +4,7 @@ import { Exec } from './classes/exec.ts'
 import { Images } from './classes/images.ts'
 import { Networks } from './classes/networks.ts'
 import { Plugins } from './classes/plugins.ts'
+import { Session } from './classes/session.ts';
 import { System } from './classes/system.ts'
 import { Volumes } from './classes/volumes.ts'
 import type { OpenAPIConfig } from './schema/index.ts'
@@ -28,7 +29,7 @@ export class Docker {
   exec = new Exec()
   networks = new Networks()
   plugins = new Plugins()
-  session = SessionService.session
+  session = new Session()
   swarm = {
     init: SwarmService.swarmInit,
     inspect: SwarmService.swarmInspect,
