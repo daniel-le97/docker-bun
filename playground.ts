@@ -3,4 +3,4 @@ import Docker from "./src/index.ts";
 
 const docker = new Docker()
 
-console.log(await docker.containers.list());
+console.log(await docker.containers.containerList());
