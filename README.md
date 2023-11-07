@@ -1,3 +1,4 @@
+
 # docker-bun 
 
 ## Getting Started
@@ -57,5 +58,8 @@ export const OpenAPI: OpenAPIConfig = {
     HEADERS: undefined,
     ENCODE_PATH: undefined,
 };
+
+
+//new Docker(OpenAPI)
 ```
 
