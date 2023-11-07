@@ -19,9 +19,12 @@ Usage
 import {Docker} from 'docker-bun'
 
 const docker = new Docker()
+// or
+
+const docker = new Docker(opts)
 
 // get all containers
-const containers = docker.container.containerList()
+const containers = await docker.container.containerList()
 ```
 # Caveats
 

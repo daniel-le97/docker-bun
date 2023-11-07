@@ -18,7 +18,7 @@ const fileContents = await Bun.file(file).text()
 const addImport = 'import { socket } from \'../../socket.ts\'\nimport { SocketRequest, SocketResponse } from \'../../parsers.ts\''
 
 const toReplace = 'return await fetch(url, request);'
-const replacer = 'const newUrl = new SocketRequest(url, request).toString()\nreturn await socket(newUrl, new SocketResponse())'
+const replacer = 'const newUrl = new SocketRequest(url, request).toString();\nreturn await socket(newUrl, new SocketResponse())'
 
 const newFile = fileContents.replace('/* eslint-disable */', `/* eslint-disable */\n${addImport}`).replace(toReplace, replacer)
 
