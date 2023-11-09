@@ -1,7 +1,7 @@
 import type { Socket } from 'bun'
-import { UnixSocketOptions } from 'bun'
 import type { SocketRequest } from './parsers.ts'
 import { SocketResponse } from './parsers.ts'
+import { unix } from './unix.ts'
 
 export async function socket(string: string, parser: SocketResponse) {
   const getting = new Promise<Response>((resolve, reject) => {
@@ -38,8 +38,8 @@ class SocketService {
   private unix: string
   public socket: Socket | null = null
   private callback: SocketCallback | null = null
-  constructor(unix: string = '/var/run/docker.sock') {
-    this.unix = unix
+  constructor() {
+    this.unix = unix.getUnix
   }
 
   async send(request: SocketRequest, cb?: SocketCallback) {

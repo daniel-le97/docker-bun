@@ -17,7 +17,7 @@ bun add docker-bun
 Usage
 
 ```js
-import {Docker} from 'docker-bun'
+import { Docker } from 'docker-bun'
 
 const docker = new Docker()
 // or
@@ -36,30 +36,29 @@ other methods have not been sought out yet
 Currently the only configuration is 
 ```js
 export interface OpenAPIConfig {
-    BASE: string;
-    VERSION: string;
-    WITH_CREDENTIALS: boolean;
-    CREDENTIALS: 'include' | 'omit' | 'same-origin';
-    TOKEN?: string | Resolver<string> | undefined;
-    USERNAME?: string | Resolver<string> | undefined;
-    PASSWORD?: string | Resolver<string> | undefined;
-    HEADERS?: Headers | Resolver<Headers> | undefined;
-    ENCODE_PATH?: ((path: string) => string) | undefined;
+  BASE: string
+  VERSION: string
+  WITH_CREDENTIALS: boolean
+  CREDENTIALS: 'include' | 'omit' | 'same-origin'
+  TOKEN?: string | Resolver<string> | undefined
+  USERNAME?: string | Resolver<string> | undefined
+  PASSWORD?: string | Resolver<string> | undefined
+  HEADERS?: Headers | Resolver<Headers> | undefined
+  ENCODE_PATH?: ((path: string) => string) | undefined
 };
 
 export const OpenAPI: OpenAPIConfig = {
-    BASE: '/v1.43',
-    VERSION: '1.43',
-    WITH_CREDENTIALS: false,
-    CREDENTIALS: 'include',
-    TOKEN: undefined,
-    USERNAME: undefined,
-    PASSWORD: undefined,
-    HEADERS: undefined,
-    ENCODE_PATH: undefined,
-};
+  BASE: '/v1.43',
+  VERSION: '1.43',
+  WITH_CREDENTIALS: false,
+  CREDENTIALS: 'include',
+  TOKEN: undefined,
+  USERNAME: undefined,
+  PASSWORD: undefined,
+  HEADERS: undefined,
+  ENCODE_PATH: undefined,
+}
 
-
-//new Docker(OpenAPI)
+// new Docker(OpenAPI)
 ```
 

@@ -1,11 +1,9 @@
 import type { OpenAPIConfig } from './schema/index.ts'
 import { ConfigService, ContainerService, DistributionService, ExecService, ImageService, NetworkService, NodeService, OpenAPI, PluginService, SecretService, ServiceService, SessionService, SwarmService, SystemService, TaskService, VolumeService } from './schema/index.ts'
-import { socketsService } from './socket.ts';
-
+import { unix } from './unix.ts'
 
 export class Docker {
-
-  constructor(opts?: OpenAPIConfig) {
+  constructor(opts?: OpenAPIConfig & { unix: string }) {
     OpenAPI.BASE = opts?.BASE ?? OpenAPI.BASE
     OpenAPI.VERSION = opts?.VERSION ?? OpenAPI.VERSION
     OpenAPI.WITH_CREDENTIALS = opts?.WITH_CREDENTIALS ?? OpenAPI.WITH_CREDENTIALS
@@ -15,7 +13,10 @@ export class Docker {
     OpenAPI.PASSWORD = opts?.PASSWORD ?? OpenAPI.PASSWORD
     OpenAPI.HEADERS = opts?.HEADERS ?? OpenAPI.HEADERS
     OpenAPI.ENCODE_PATH = opts?.ENCODE_PATH ?? OpenAPI.ENCODE_PATH
+    if (opts?.unix)
+      unix.setUnix(opts.unix)
   }
+
   containers = ContainerService
   images = ImageService
   distibution = DistributionService
@@ -23,17 +24,15 @@ export class Docker {
   networks = NetworkService
   plugins = PluginService
   session = SessionService
-  swarm = {
-    swarm: SwarmService,
-    services: ServiceService,
-    tasks: TaskService,
-    secrets: SecretService,
-    nodes: NodeService,
-    configs: ConfigService,
-  }
-
+  services = ServiceService
+  secrets = SecretService
+  configs = ConfigService
   system = SystemService
   volumes = VolumeService
+  swarm = {
+    swarm: SwarmService,
+    tasks: TaskService,
+    nodes: NodeService,
+  }
 }
 export default Docker
-

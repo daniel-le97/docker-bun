@@ -1,5 +1,5 @@
 import dts from 'bun-plugin-dts'
-import consola from 'consola';
+import consola from 'consola'
 
 const builder = await Bun.build({
   entrypoints: ['./src/index.ts'],
@@ -7,12 +7,7 @@ const builder = await Bun.build({
   minify: false,
   splitting: true,
   target: 'bun',
-  plugins: [dts()]
+  plugins: [dts()],
 })
 
-builder.success ? consola.success("API bundled") : consola.error("issues building API")
-
-
-
-
-
+builder.success ? consola.success('API bundled') : consola.error('issues building API')
