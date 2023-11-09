@@ -1,7 +1,7 @@
 {
   "name": "docker-bun",
   "type": "module",
-  "version": "0.3.10",
+  "version": "0.3.11-beta.0",
   "author": "Daniel Le <daniel97.le@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/daniel-le97/docker-bun#readme",
@@ -32,12 +32,12 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^1.1.0",
-    "bnx": "^0.3.1",
+    "@types/js-yaml": "^4.0.9",
     "bun-plugin-dts": "^0.2.1",
     "bun-types": "^1.0.9",
-    "docker-bun": "^0.3.8",
     "eslint": "^8.53.0",
     "http-parser-js": "^0.5.8",
+    "js-yaml": "^4.1.0",
     "openapi-typescript-codegen": "^0.25.0"
   }
 }
