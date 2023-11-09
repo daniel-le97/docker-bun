@@ -29,10 +29,8 @@ export class Docker {
   configs = ConfigService
   system = SystemService
   volumes = VolumeService
-  swarm = {
-    swarm: SwarmService,
-    tasks: TaskService,
-    nodes: NodeService,
-  }
+  swarm = SwarmService
+  tasks = TaskService
+  nodes = NodeService
 }
 export default Docker

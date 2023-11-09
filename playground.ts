@@ -45,7 +45,7 @@ const myDockerCompose: DockerComposeFile = {
 class ComposeService{
     secrets(){
         const dockr = new Docker()
-        dockr.swarm.secrets.
+        dockr.secrets.secretCreate()
     }
 }
 
