@@ -1,7 +1,7 @@
 {
   "name": "docker-bun",
   "type": "module",
-  "version": "0.3.11-beta.1",
+  "version": "0.3.11-beta.2",
   "author": "Daniel Le <daniel97.le@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/daniel-le97/docker-bun#readme",
