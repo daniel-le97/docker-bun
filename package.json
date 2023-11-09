@@ -25,7 +25,8 @@
     "lint:fix": "eslint . --fix",
     "generate": "openapi --input ./src/open-api.yaml --output ./src/schema",
     "release": "bunx bumpp",
-    "prepublishOnly": "bun build.ts"
+    "build": "bun build.ts",
+    "prepublishOnly": "bun run build"
   },
   "peerDependencies": {
     "typescript": "^5.2.2"

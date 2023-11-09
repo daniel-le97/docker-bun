@@ -33,4 +33,4 @@ export class Docker {
   tasks = TaskService
   nodes = NodeService
 }
-export default Docker
+ export * from './schema/index.ts'

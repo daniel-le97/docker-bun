@@ -1,7 +1,8 @@
 /* eslint-disable unused-imports/no-unused-vars */
 import { readFileSync } from 'node:fs'
 import { load } from 'js-yaml'
-import Docker from './src/index.ts'
+import type { ServiceSpec } from './src/index.ts'
+import { Docker } from './src/index.ts'
 
 interface DockerComposeService {
   image?: string
@@ -42,30 +43,47 @@ const myDockerCompose: DockerComposeFile = {
   // Add more top-level properties as needed
 }
 
-class ComposeService{
-    secrets(){
-        const dockr = new Docker()
-        dockr.secrets.secretCreate()
-    }
-}
+// class ComposeService{
+//     secrets(){
+//         const dockr = new Docker()
+//         dockr.secrets.secretCreate({
+//             ''
+//         })
+//     }
+// }
 
 class Compose {
   docker: Docker
   file: string
   name: string
   compose: DockerComposeFile
+  services: [string, DockerComposeService][] | null = null
+  private output = {}
   constructor(docker: Docker, file: string, name: string) {
-      if (file === undefined || name === undefined)
-        throw new Error('please specify a file and a project name')
-
-      this.docker = docker
-      this.file = file
-      this.name = name
-      this.compose = load(readFileSync(file, 'utf8')) as DockerComposeFile
-        
+    if (file === undefined || name === undefined)
+      throw new Error('please specify a file and a project name')
+    this.compose = load(readFileSync(file, 'utf8')) as DockerComposeFile
+    this.docker = docker
+    this.file = file
+    this.name = name
+    this.sort()
   }
 
-  async up() {
-
+  sort() {
+    this.services = Object.entries(this.compose)
   }
+
+  //   async up() {
+  //     try {
+
+  //     }
+  //     catch (error) {
+
+//     }
+//   }
 }
+
+const spec: ServiceSpec
+const docker = new Docker().services.serviceCreate(body)
+
+const wireguard = new Compose(docker, 'wireguard.yml', 'wireguard')
