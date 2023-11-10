@@ -1,89 +1,71 @@
-/* eslint-disable unused-imports/no-unused-vars */
 import { readFileSync } from 'node:fs'
 import { load } from 'js-yaml'
 import type { ServiceSpec } from './src/index.ts'
-import { Docker } from './src/index.ts'
+import { ApiError, Docker } from './src/index.ts'
 
-interface DockerComposeService {
-  image?: string
-  build?: string
-  ports?: string[]
-  environment?: { [key: string]: string }
-  volumes?: string[]
-  depends_on?: string[]
-  // Add more service-specific properties as needed
+const docker = new Docker()
+interface Filters {
+  dangling?: boolean
+  driver?: string
+  label?: string | Record<string, string>
+  name?: string
 }
 
-interface DockerComposeFile {
-  version: string
-  services: { [serviceName: string]: DockerComposeService }
-  // Add more top-level properties as needed
-}
+// Function to convert the Filters object to a JSON-encoded string
+function encodeFilters(filters: Record<string, string>): string {
+  const filterStrings: string[] = []
 
-const myDockerCompose: DockerComposeFile = {
-  version: '3',
-  services: {
-    web: {
-      image: 'nginx:latest',
-      ports: ['80:80'],
-    },
-    app: {
-      build: './app',
-      ports: ['3000:3000'],
-      environment: {
-        NODE_ENV: 'development',
-      },
-      volumes: ['./app:/app'],
-      depends_on: ['db'],
-    },
-    db: {
-      image: 'postgres:latest',
-    },
-  },
-  // Add more top-level properties as needed
-}
+  for (const key in filters) {
+    if (filters.hasOwnProperty(key)) {
+      const value = filters[key]
+      if (value)
 
-// class ComposeService{
-//     secrets(){
-//         const dockr = new Docker()
-//         dockr.secrets.secretCreate({
-//             ''
-//         })
-//     }
-// }
-
-class Compose {
-  docker: Docker
-  file: string
-  name: string
-  compose: DockerComposeFile
-  services: [string, DockerComposeService][] | null = null
-  private output = {}
-  constructor(docker: Docker, file: string, name: string) {
-    if (file === undefined || name === undefined)
-      throw new Error('please specify a file and a project name')
-    this.compose = load(readFileSync(file, 'utf8')) as DockerComposeFile
-    this.docker = docker
-    this.file = file
-    this.name = name
-    this.sort()
+        filterStrings.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+    }
   }
 
-  sort() {
-    this.services = Object.entries(this.compose)
-  }
-
-  //   async up() {
-  //     try {
-
-  //     }
-  //     catch (error) {
-
-//     }
-//   }
+  return filterStrings.join('&')
 }
 
-const spec: ServiceSpec
-const docker = new Docker().services.serviceCreate(body)
+try {
+  const filters = { name: 'project_default' }
+  const encodedFilters = encodeURIComponent(JSON.stringify(filters))
+  const networks = await docker.containers.containerStats("a58d24974cf9c62eacace62f59441f13b3af039acfe0753f98f88abf9ec9a523")
+  console.log(networks)
+}
+catch (error) {
+  if (error instanceof ApiError)
+    console.error('API Error:', error.message)
 
-const wireguard = new Compose(docker, 'wireguard.yml', 'wireguard')
+  else
+    console.error('An unexpected error occurred:', error)
+}
+
+// const filters = JSON.stringify({ name: "project_default"} as Filters);
+// const res = await docker.networks.networkList()
+// const res = await docker.networks.networkCreate({Name: 'project_default', 'CheckDuplicate':true})
+// const res = await docker.secrets.secretCreate({
+//   Name: 'app-key.crt',
+//   Labels: {
+//     'com.example.some-label': 'some-value',
+//     'com.example.some-other-label': 'some-other-value',
+//     'foo': 'bar',
+//   },
+//   Data: 'VEhJUyBJUyBOT1QgQSBSRUFMIENFUlRJRklDQVRFCg==',
+//   Driver: {
+//     Name: 'secret-bucket',
+//     Options: {
+//       OptionA: 'value for driver option A',
+//       OptionB: 'value for driver option B',
+//     },
+//   },
+//   Templating: {
+//     Name: 'some-driver',
+//     Options: {
+//       OptionA: 'value for driver-specific option A',
+//       OptionB: 'value for driver-specific option B',
+//     },
+//   },
+// })
+// const res = await docker.images.imageInspect('sha256:ab6510b890a4b32cfb12d620d4f6b301f48ba3958cbc802ccc226b386e209988')
+// console.log(res)

@@ -42,11 +42,13 @@ class SocketService {
     this.unix = unix.getUnix
   }
 
-  async send(request: SocketRequest, cb?: SocketCallback) {
+  send(request: string, cb?: SocketCallback) {
     if (!this.socket)
       throw new Error('Not connected to docker daemon.')
     this.callback = cb || null
-    this.socket.write(request.toString())
+    // console.log({send:request});
+    
+    this.socket.write(request)
   }
 
   get isConnected() {
@@ -85,6 +87,8 @@ class SocketService {
           throw error
         },
         async data(_socket, _data) {
+          console.log(_data);
+          
           await resolveParser(_data)
         },
         end(_socket) {

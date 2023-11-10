@@ -11,6 +11,7 @@ import type { OpenAPIConfig } from './OpenAPI';
 import { socket, socketsService } from '../../socket.ts'
 import { SocketRequest, SocketResponse } from '../../parsers.ts'
 import { rejects } from 'assert';
+import consola from 'consola';
 
 export const isDefined = <T>(value: T | null | undefined): value is Exclude<T, null | undefined> => {
     return value !== undefined && value !== null;
@@ -146,7 +147,7 @@ export const getHeaders = async (config: OpenAPIConfig, options: ApiRequestOptio
     const additionalHeaders = await resolve(options, config.HEADERS);
 
     const headers = Object.entries({
-        Host: 'localhost',
+        // Host: 'localhost',
         Accept: 'application/json',
         ...additionalHeaders,
         ...options.headers,
@@ -178,7 +179,12 @@ export const getHeaders = async (config: OpenAPIConfig, options: ApiRequestOptio
         }
     }
 
-    return new Headers(headers);
+    headers['Host'] = 'localhost'
+    // console.log({headers});
+    
+    // const newHeaders = new Headers(headers)
+    // consola.info({newHeaders})
+    return headers as unknown as Headers
 };
 
 export const getRequestBody = (options: ApiRequestOptions): any => {
@@ -188,11 +194,37 @@ export const getRequestBody = (options: ApiRequestOptions): any => {
         } else if (isString(options.body) || isBlob(options.body) || isFormData(options.body)) {
             return options.body;
         } else {
-            return JSON.stringify(options.body);
+            return JSON.stringify(options.body)
         }
     }
     return undefined;
 };
+
+
+function requestInitToString(requestInit: RequestInit, url: string) {
+    // consola.box({requestInit})
+    
+    const { method, headers, body } = requestInit;
+    let requestString = `${method} ${url} HTTP/1.1\r\n`;
+
+    // Convert headers to string
+    if (headers) {
+      for (const [key, value] of Object.entries(headers)) {
+        requestString += `${key}: ${value}\r\n`;
+      }
+    }
+  
+    // Add an empty line to separate headers from the body
+    requestString += '\r\n';
+  
+    // Add the request body, if present
+    if (body) {
+      requestString += body;
+    }
+
+    return requestString
+  }
+  
 
 export const sendRequest = async (
     config: OpenAPIConfig,
@@ -216,19 +248,19 @@ export const sendRequest = async (
         request.credentials = config.CREDENTIALS;
     }
 
+    
+
     onCancel(() => controller.abort());
 
-    // console.log('happening');
+    const curl = new SocketRequest(url, request).toString()
+    console.log(curl);
     
-
-    const newUrl = new SocketRequest(url, request)
     await socketsService.connect()
-    
     return new Promise<Response>((resolve, reject) => {
-        socketsService.send(newUrl, async(res) => {
+        socketsService.send(curl, async(res) => {
         if (!res.ok) return reject(Error(await res.text()));
-        resolve(res)
-    })
+        return resolve(res)
+        })
     })
 };
 
@@ -310,7 +342,7 @@ export const request = <T>(config: OpenAPIConfig, options: ApiRequestOptions): C
             const formData = getFormData(options);
             const body = getRequestBody(options);
             const headers = await getHeaders(config, options);
-
+                
             if (!onCancel.isCancelled) {
                 const response = await sendRequest(config, options, url, body, formData, headers, onCancel);
                 const responseBody = await getResponseBody(response);

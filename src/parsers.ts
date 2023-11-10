@@ -148,14 +148,14 @@ export class SocketRequest {
   public url: string
   public method?: string
   public headers?: Headers
-  public body?: string
+  public body?: BodyInit
 
   constructor(url: string, options: RequestInit) {
     this.url = url
     this.method = options.method!
     this.headers = new Headers(options.headers)
     if (options.body)
-      this.body = options.body.toString()
+      this.body = options.body
   }
 
   /** Returns the string representation of the request. */
@@ -163,12 +163,21 @@ export class SocketRequest {
     let requestString = `${this.method} ${this.url} HTTP/1.1\r\n`
 
     if (this.headers) {
+      if (this.body)
+        this.headers.append('Content-Length', this.body.toString().length.toString())
+
       for (const [name, value] of this.headers.entries())
         requestString += `${name}: ${value}\r\n`
     }
 
     requestString += '\r\n'
-    return this.body ? requestString + this.body : requestString
+
+    if (this.body)
+      requestString += this.body
+
+    // console.log({ requestString })
+
+    return requestString
   }
 }
 
