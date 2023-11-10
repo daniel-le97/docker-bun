@@ -7,6 +7,9 @@ this project was made because no existing node docker packages work in bun
 
 The docker Api specification was used to generate the API
 
+API endpoints with steams do not yet work as i do not yet understand how all of buns api's work
+most have a paramater that disables streams
+
 
 To install dependencies:
 
