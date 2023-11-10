@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs'
 import { load } from 'js-yaml'
 import type { ServiceSpec } from './src/index.ts'
 import { ApiError, Docker } from './src/index.ts'
+import { getQueryString } from './src/schema/core/request.ts';
 
 const docker = new Docker()
 interface Filters {
@@ -30,8 +31,9 @@ function encodeFilters(filters: Record<string, string>): string {
 try {
   const filters = { name: 'project_default' }
   const encodedFilters = encodeURIComponent(JSON.stringify(filters))
-  const networks = await docker.containers.containerStats("a58d24974cf9c62eacace62f59441f13b3af039acfe0753f98f88abf9ec9a523")
-  console.log(networks)
+  const string = getQueryString({name:'project_default'})
+  const networks = await docker.networks.networkList()
+  console.log( networks)
 }
 catch (error) {
   if (error instanceof ApiError)

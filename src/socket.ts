@@ -87,7 +87,6 @@ class SocketService {
           throw error
         },
         async data(_socket, _data) {
-          console.log(_data);
           
           await resolveParser(_data)
         },
