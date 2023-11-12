@@ -3,6 +3,8 @@
 
 ## Getting Started
 
+I Probably would not use this yet as there will be breaking changes, and will be removed once bun provides support for socket paths in http clients
+
 this project was made because no existing node docker packages work in bun
 
 The docker Api specification was used to generate the API
